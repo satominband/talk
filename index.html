@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <ul class="messages">
+      <li class="left-side">
+        <div class="pic">
+          <img src="img/ushi.gif">
+        </div>
+        <div id="result-div" class="text"></div>
+      </li>
+      <li class="right-side">
+        <div class="pic">
+          <img src="img/tora.png">
+        </div>
+        <div id="result-div2" class="text"></div>
+      </li>
+    </ul>
+  </div>
+  <div>
+  <button id="start-btn"class="material-icons">keyboard_voice</button>
+  </div>
+</body>
+</html>
+
+<script>
+  const startBtn = document.querySelector('#start-btn');
+  const resultDiv = document.querySelector('#result-div');
+  const resultDiv2 = document.querySelector('#result-div2');
+
+  SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
+  let recognition = new SpeechRecognition();
+
+  recognition.lang = 'ja-JP';
+
+  let finalTranscript = ''; // 確定した(黒の)認識結果
+
+  recognition.onresult = (event) => {
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      let transcript = event.results[i][0].transcript;
+      if (event.results[i].isFinal) {
+        finalTranscript = transcript;
+      } 
+      resultDiv2.innerHTML = finalTranscript;
+    // 発言を作成
+    const uttr = new SpeechSynthesisUtterance(resultDiv2.innerHTML)
+    // 発言を再生 (発言キュー発言に追加)
+    speechSynthesis.speak(uttr)
+    }
+    resultDiv.innerHTML = finalTranscript;
+    // console.log(resultDiv.innerHTML);
+   }
+  
+ startBtn.onclick = () => {
+    recognition.start();
+  }
+  
+</script>
