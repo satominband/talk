@@ -6,8 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Voice</title>
   <link rel="stylesheet" href="css/main.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
   <div class="container">
@@ -31,8 +30,26 @@
   </div>
 </body>
 </html>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+
+  axios
+  .get("index.php")
+  .then(function (response) {
+    // リクエスト成功時の処理（responseに結果が入っている）
+    console.log(response);
+  })
+  .catch(function (error) {
+    // リクエスト失敗時の処理（errorにエラー内容が入っている）
+    console.log(error);
+  })
+  .finally(function () {
+    // 成功失敗に関わらず必ず実行
+    console.log("done!");
+  });
+
+  //音声認識と音声合成//
   const startBtn = document.querySelector('#start-btn');
   const resultDiv = document.querySelector('#result-div');
   const resultDiv2 = document.querySelector('#result-div2');
