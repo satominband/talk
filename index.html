@@ -28,25 +28,31 @@
   <div>
   <button id="start-btn"class="material-icons">keyboard_voice</button>
   </div>
+  <div>
+    <input type="text" id="text_emotion">
+    <button id="emotion">感情解析</button>
+  </div>
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-
-  axios
-  .get("index.php")
-  .then(function (response) {
-    // リクエスト成功時の処理（responseに結果が入っている）
-    console.log(response);
-  })
-  .catch(function (error) {
-    // リクエスト失敗時の処理（errorにエラー内容が入っている）
-    console.log(error);
-  })
-  .finally(function () {
-    // 成功失敗に関わらず必ず実行
-    console.log("done!");
+  $('#emotion').on('click', function(){
+    const text = $('#text_emotion').val();
+    axios
+    .get(`index.php?text=${text}`)
+    .then(function (response) {
+      // リクエスト成功時の処理（responseに結果が入っている）
+      console.log(response);
+    })
+    .catch(function (error) {
+      // リクエスト失敗時の処理（errorにエラー内容が入っている）
+      console.log(error);
+    })
+    .finally(function () {
+      // 成功失敗に関わらず必ず実行
+      console.log("done!");
+    });
   });
 
   //音声認識と音声合成//
@@ -66,7 +72,7 @@
       let transcript = event.results[i][0].transcript;
       if (event.results[i].isFinal) {
         finalTranscript = transcript;
-      } 
+      }
       resultDiv2.innerHTML = finalTranscript;
     // 発言を作成
     const uttr = new SpeechSynthesisUtterance(resultDiv2.innerHTML)
@@ -75,10 +81,20 @@
     }
     resultDiv.innerHTML = finalTranscript;
     // console.log(resultDiv.innerHTML);
+
+    $.ajax({
+      url: 'talk.py',
+      type: 'post',
+      data: { data: finalTranscript }
+    }).done(function (data) {
+      console.log(data);
+    }).fail(function () {
+      console.log('failed');
+    });
    }
-  
+
  startBtn.onclick = () => {
     recognition.start();
   }
-  
+
 </script>
