@@ -9,17 +9,18 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+  <h1>賢治AI</h1> 
   <div class="container">
     <ul class="messages">
       <li class="left-side">
         <div class="pic">
-          <img src="img/ushi.gif">
+          <img src="img/hitoo.png">
         </div>
         <div id="result-div" class="text"></div>
       </li>
       <li class="right-side">
         <div class="pic">
-          <img src="img/tora.png">
+          <img src="img/賢治.jpeg">
         </div>
         <div id="result-div2" class="text"></div>
       </li>
@@ -33,21 +34,27 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+//データ受け取り//
+  // axios
+  // .get("index.php")
+  // .then(function (response) {
+  //   // リクエスト成功時の処理（responseに結果が入っている）
+  //   console.log(response);
+  // })
+  // .catch(function (error) {
+  //   // リクエスト失敗時の処理（errorにエラー内容が入っている）
+  //   console.log(error);
+  // })
+  // .finally(function () {
+  //   // 成功失敗に関わらず必ず実行
+  //   console.log("done!");
+  // });
 
-  axios
-  .get("index.php")
-  .then(function (response) {
-    // リクエスト成功時の処理（responseに結果が入っている）
-    console.log(response);
-  })
-  .catch(function (error) {
-    // リクエスト失敗時の処理（errorにエラー内容が入っている）
-    console.log(error);
-  })
-  .finally(function () {
-    // 成功失敗に関わらず必ず実行
-    console.log("done!");
-  });
+//データに対してtextの色を変える//※本当は徐々に色を変えたい
+// "joysad":3.0 ~0(中立)~ -3.0,
+// "likedislike":3.0 ~0(中立)~ -3.0,
+// "angerfear":3.0 ~0(中立)~ -3.0,
+
 
   //音声認識と音声合成//
   const startBtn = document.querySelector('#start-btn');
@@ -74,8 +81,21 @@
     speechSynthesis.speak(uttr)
     }
     resultDiv.innerHTML = finalTranscript;
+    // console.log(joysad);
+  
+    const joysad = -1;
+
+    if(joysad === 0)  {
+  $("#result-div2")
+      .css({'color':'green','font-family':'HiraginoSans-W0','font-weight': '900'});
+    }else if (joysad > 0 && joysad <= 3) {
+      $("#result-div2").css({'color':'red','font-size':'20px','font-family':'Hiragino Maru Gothic ProN','font-weight': '900'});
+    }else if (joysad < 0 && joysad >= -3) {
+      $("#result-div2").css({'color':'blue','font-size':'20px','font-family':'Hiragino Mincho ProN'});
+    };
     // console.log(resultDiv.innerHTML);
    }
+
   
  startBtn.onclick = () => {
     recognition.start();
